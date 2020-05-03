@@ -8,9 +8,9 @@ const weatherWrapper = document.querySelector(".weather__wrapper"),
 
 function getWeather(lat ,lon){
     const KEY = "ee3090214708ba2f031e6ae17cafe4c4";
-    const weatherApi = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${KEY}&units=metric`;
 
-    fetch(weatherApi)
+    fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${KEY}&units=metric`
+    )
     .then(function(res){
         return res.json();
     })
