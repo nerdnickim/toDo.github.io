@@ -159,9 +159,10 @@ const TODO_LS = "currentToDo",
 
     function loadToDos(){
         const toDoValue = localStorage.getItem(TODO_LS);
-        const currentToDo = JSON.parse(toDoValue);
+        let currentToDo = JSON.parse(toDoValue);
 
         currentToDo.forEach(toDo => {
+            console.log(currentToDo)
             const toDoText = toDo.text;
             paintTodo(toDoText);
         })
@@ -169,7 +170,7 @@ const TODO_LS = "currentToDo",
         const toWeekValue = localStorage.getItem(WEEK_LS);
         const currentToWeek = JSON.parse(toWeekValue);
 
-        currentToDo.forEach(toDo => {
+        currentToWeek.forEach(toDo => {
             const toDoText = toDo.text;
             paintToWeek(toDoText);
         })
