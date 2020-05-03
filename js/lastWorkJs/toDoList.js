@@ -3,6 +3,8 @@ const toDoWrapper = document.querySelector(".todo__wrapper"),
     toDoList = toDoWrapper.querySelector(".toDoList"),
     toDoListWeek = toDoWrapper.querySelector(".toDoList__week");
 
+const toDoId = document.getElementById("toDoId");
+
 let toDo_ary = [],
     week_ary= [];
 
@@ -35,7 +37,7 @@ const TODO_LS = "currentToDo",
             saveToDo();
         } else {
             offSetLi.removeChild(parentLi);
-            const toDoDelete = toDo_ary.filter(toDo => {
+            const toDoDelete = week_ary.filter(toDo => {
                 if(parentLi.id != JSON.stringify(toDo.id)){
                     return toDo;
                 }
@@ -49,49 +51,52 @@ const TODO_LS = "currentToDo",
         e.preventDefault();
 
         const parentList = e.target.parentNode;
+        const parentUl = parentList.parentNode;
         const btn = e.target;
         const text = parentList.firstChild.innerText;
-
-        if(btn.id === "week"){
-
-            const liId = toDo_ary.length +1;
-
-            btn.id = "today";
-            parentList.id = liId;
-            btn.innerText = "→";
-            toDoListWeek.removeChild(parentList);
-            toDoList.appendChild(parentList);
-
-            const toDo_obj = {
-                text,
-                id : liId
-            }
-
-            toDo_ary.push(toDo_obj);
-
-            
-        } else {
+        if(parentUl.id === toDoId.id){
 
             const idx = toDo_ary.findIndex(function(item){
-                return parseInt(parentList.id) ===item.id
+                return parseInt(parentList.id) === item.id;
             })
-            if(idx > -1){
-                toDo_ary.splice(idx, parseInt(parentList.id));
+            if (idx > -1){
+                toDo_ary.splice(idx, parseInt(parentList.id))
             }
 
-            toDoList.removeChild(parentList);
-            const liId = week_ary.length +1;
+            const liId = week_ary.length + 1;
             parentList.id = liId;
-            btn.id= "week"
-            btn.innerText = "←"
+            btn.innerText = "←";
+
             toDoListWeek.appendChild(parentList);
 
-            const week_obj = {
+            const obj = {
                 text,
                 id: liId
             }
 
-            week_ary.push(week_obj);
+            week_ary.push(obj);
+
+        } else {
+            const idx = week_ary.findIndex(function(item){
+                return parseInt(parentList.id) === item.id;
+            })
+            if (idx > -1){
+                week_ary.splice(idx, parseInt(parentList.id))
+            }
+
+            const liId = toDo_ary.length + 1;
+            parentList.id = liId;
+            btn.innerText = "→";
+
+            toDoList.appendChild(parentList);
+
+            const obj = {
+                text,
+                id: liId
+            }
+
+            toDo_ary.push(obj);
+            
         }
 
         saveToDo();
@@ -161,19 +166,23 @@ const TODO_LS = "currentToDo",
         const toDoValue = localStorage.getItem(TODO_LS);
         let currentToDo = JSON.parse(toDoValue);
 
-        currentToDo.forEach(toDo => {
-            console.log(currentToDo)
-            const toDoText = toDo.text;
-            paintTodo(toDoText);
-        })
+        if(toDoValue !== null){
+            currentToDo.forEach(toDo => {
+                console.log(currentToDo)
+                const toDoText = toDo.text;
+                paintTodo(toDoText);
+            })
+        }
 
         const toWeekValue = localStorage.getItem(WEEK_LS);
         const currentToWeek = JSON.parse(toWeekValue);
 
-        currentToWeek.forEach(toDo => {
-            const toDoText = toDo.text;
-            paintToWeek(toDoText);
-        })
+        if(toWeekValue !== null){
+            currentToWeek.forEach(toDo => {
+                const toDoText = toDo.text;
+                paintToWeek(toDoText);
+            })
+        }
     }
 
     function toDoHandle(e){
@@ -189,4 +198,7 @@ const TODO_LS = "currentToDo",
         toDoForm.addEventListener("submit", toDoHandle);
     }
 
-    toDoInit();
+    
+    if(toDoForm){
+        toDoInit();
+    }
