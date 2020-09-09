@@ -46,7 +46,6 @@ body {
 .clock__wrapper h1 {
 	font-size: 80px;
 	font-weight: 800;
-	color: white;
 }
 
 .user__wrapper {
@@ -64,7 +63,6 @@ body {
 	top: 30px;
 	right: 40px;
 	font-size: 60px;
-	color: white;
 }
 
 .todo__contain {
@@ -86,9 +84,18 @@ body {
 	flex-direction: row;
 }
 
+.todoList__contain ul li {
+	display: flex;
+	align-items: center;
+}
+
+.todoList__contain ul li > button:nth-child(2) {
+	margin: 0 8px;
+}
+
 .todo__wrapper form {
 	position: relative;
-	grid-area: todoForm;
+
 	margin-bottom: 30px;
 }
 
@@ -99,7 +106,6 @@ body {
 .toDoList {
 	min-width: 300px;
 	margin-right: 40px;
-	grid-area: toDo;
 }
 
 .toDoList h1 {
@@ -109,7 +115,6 @@ body {
 }
 
 .toDoList__week {
-	grid-area: toWeek;
 }
 
 .toDoList__week h1 {
